@@ -1,0 +1,44 @@
+{% extends 'lib/base.html' %}
+
+{% block title %}
+{{ author }}
+{% endblock %}
+
+{% block main %}
+<h1 class="text-primary text-center">{{ object }}</h1>
+<hr>
+
+<div class="row mt-5">   
+     <div class="col-2">
+         <img src="{{ author.portrait }}" class="img-fluid img-thumbnail">
+     </div>
+     <div class="col-3">
+         {% for genre in author.genres %}
+            <a href="#">{{genre}}</a><br>
+         {% endfor %} 
+     </div>
+     <div class="col-3 text-center">
+         <h3>Books:</h3>
+         {% for book in author.books.all %}
+            <a href="{{ book.url }}" class="text-decoration-none">
+                <h5>{{ book }}</h5>
+            </a>
+         {% endfor %}
+     </div>
+     <div class="col-4">
+        <h3 class="text-center">Comments:</h3>
+        {% for comment in author.comments %}
+            <p>{{ comment.author }} about 
+                <a href="{{comment.book.url}}">{{ comment.book }}</a>
+                : {{comment.text}} <br>
+                <i>({{ comment.published }})</i> 
+            </p>
+        {% endfor %} 
+     </div>
+</div>
+
+
+
+
+
+{% endblock %}

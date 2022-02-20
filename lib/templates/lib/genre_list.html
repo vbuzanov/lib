@@ -1,0 +1,42 @@
+{% extends 'lib/base.html' %}
+
+{% block title %}
+All Genres
+{% endblock %}
+
+{% block main %}
+<h1 class="text-primary text-center">All Genres</h1>
+
+{% for genre in object_list %}
+<a name="section{{genre.id}}"></a>
+<h2 class="mt-3">{{ genre }} ({{genre.books.all| length}})</h2>
+
+<div class="row">
+    {% for book in genre.books.all %}
+    <div class="col-4">
+        <div class="row">
+            <div class="col-4 py-2">
+                <img src="{{ book.cover }}" class="w-100">
+            </div>
+            <div class="col-8">
+                <a href="{{ book.url }}" class="text-decoration-none">
+                    <h5>{{ book }}</h5>
+                </a>
+                <a href="{{ book.author.url }}" class="text-decoration-none text-success">
+                    <h6>{{ book.author }}</h6>
+                </a>
+                <p style="font-size: 70%;">
+                    {% for genre1 in book.genres.all %}
+                    <a href="{{genre1.url}}">{{genre1}}</a>
+                    {% endfor %} 
+                </p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}  
+</div>
+<a href="{% url 'lib:genre-list' %}#section{{genre.id}}">up</a>
+<hr>
+
+{% endfor %}
+{% endblock %}

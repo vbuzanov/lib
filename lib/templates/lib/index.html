@@ -1,0 +1,31 @@
+{% extends 'lib/base.html' %}
+
+{% block title %}
+Polygon Lib.
+{% endblock %}
+
+{% block main %}
+<h1 class="text-primary text-center">Polygon Library</h1>
+<hr>
+
+<div class="row">
+    <div class="col-4">
+        <a href="{% url 'lib:book-list' %}">
+            <h2 class="text-primary text-center">All Books</h2>
+        </a>
+    </div>
+    <div class="col-4">
+        <a href="{% url 'lib:author-list' %}">
+            <h2 class="text-primary text-center">All Authors</h2>
+        </a>
+    </div>
+    <div class="col-4">
+        <a href="{% url 'lib:genre-list' %}">
+            <h2 class="text-primary text-center">Books by Genre</h2>
+        </a>
+    </div>
+</div>
+
+
+
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'lib/base.html' %}
+
+{% block title %}
+All Books
+{% endblock %}
+
+{% block main %}
+<h1 class="text-primary text-center">All Books</h1>
+
+<div class="row">
+    {% for book in object_list %}
+    <div class="col-4">
+        <div class="row">
+            <div class="col-4 py-2">
+                <img src="{{ book.cover }}" class="w-100">
+            </div>
+            <div class="col-8">
+                <a href="{{ book.url }}" class="text-decoration-none">
+                    <h5>{{ book }}</h5>
+                </a>
+                <a href="{{ book.author.url }}" class="text-decoration-none text-success">
+                    <h6>{{ book.author }}</h6>
+                </a>
+                <p style="font-size: 70%;">
+                    {% for genre in book.genres.all %}
+                    <a href="#">{{genre}}</a>
+                    {% endfor %} 
+                </p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}  
+</div>
+
+
+
+{% endblock %}

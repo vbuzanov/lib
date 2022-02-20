@@ -1,0 +1,73 @@
+{% extends 'lib/base.html' %}
+
+{% block title %}
+{{ book }}
+{% endblock %}
+
+{% block main %}
+<h1 class="text-primary text-center">{{ object }}</h1>
+<hr>
+
+<div class="row mt-5">   
+     <div class="col-2">
+         <img src="{{ book.cover }}" class="img-fluid img-thumbnail">
+     </div>
+     <div class="col-3">
+         <a href="{{ book.author.url }}" class="text-decoration-none">
+             <h2 class="text-success">{{book.author}}</h2>
+         </a>
+         <br>
+         {% for genre in book.genres.all %}
+            <a href="{{ genre.url }}">{{genre}}</a><br>
+         {% endfor %} 
+     </div>
+     {% if book.summary %}
+        <div class="col-4">
+            <h3>Summary:</h3>
+            <p>{{book.summary}}</p>
+        </div>
+     {% endif %}
+     {% if book.instances.all %}
+     <div class="col-3">
+         <h3>Instances ({{book.instances.all | length}}):</h3>
+         <ul>
+         {% for bi in book.instances.all %}
+            <li>
+                {{ bi.id }} - {{ bi.get_status_display }}
+                {% if bi.status == 'o' %}
+                    (till {{ bi.due_back | date:'d F' }})
+                {% endif %}
+                {% if bi.status == 'a' %}
+                    <form action="{% url 'lib:edit-order' %}" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="bi_id" value="{{bi.id}}">
+                        <button type="submit" class="btn btn-outline-primary btn-sm">Order</button>
+                    </form>
+                    
+                {% endif %}
+            </li>
+         {% endfor%}
+         </ul>
+     </div>
+    {% endif %}
+</div>
+<hr>
+
+<form method="POST" action="{% url 'lib:add-comment' %}">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col">
+            <input type="text" class="form-control" placeholder="author" name="author">
+        </div>
+        <div class="col">
+            <input type="text" class="form-control" placeholder="comment" name="text">
+            <input type="hidden" name="book_id" value="{{ book.id }}">
+        </div>
+        <div class="col">
+            <input type="submit" value="Add" class="btn btn-primary mb-2">
+        </div>
+    </div>
+</form>
+
+
+{% endblock %}
